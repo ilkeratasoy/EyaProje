@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>EYA Proje – Mühendislik & Mimarlık & Müşavirlik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f6f2; --bgw:#f0ede7; --bgc:#ffffff; --bdk:#f0ede7;
+  --gld:#8c7355; --gll:#b89e7c; --glx:#e8e4dc; --glb:#f0ede7;
+  --tau:#9a978f; --tal:#b8b4aa; --tax:#e8e4dc;
+  --ink:#1a1916; --inm:#6b6860; --imu:#6b6860; --inf:#9a978f;
+  --brd:rgba(26,25,22,0.18); --brl:rgba(26,25,22,0.1);
+  --nh:68px; --ease:cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font:inherit}
+
+/* MODAL */
+.ovl{display:none;position:fixed;inset:0;z-index:2000;background:rgba(26,22,18,.55);align-items:center;justify-content:center;padding:16px}
+.ovl.on{display:flex}
+.mbox{background:var(--bgc);border-radius:18px;padding:clamp(24px,4vw,44px);width:100%;max-width:460px;max-height:90vh;overflow-y:auto;position:relative}
+.mcl{position:absolute;top:14px;right:18px;font-size:19px;color:var(--imu);cursor:pointer;background:none;border:none;line-height:1;padding:4px 8px}
+.mcl:hover{color:var(--ink)}
+.mbadge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:var(--glb);border-radius:100px;font-size:11px;color:var(--gld);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.mh{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--ink);margin-bottom:4px}
+.ms{font-size:14px;font-weight:300;color:var(--tau);margin-bottom:20px}
+.ff{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tau);font-weight:300}
+.fi{padding:11px 14px;border:1px solid var(--brl);border-radius:4px;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s;width:100%;-webkit-appearance:none}
+.fi:focus{border-color:var(--gld);background:var(--bgc)}
+.fsel{padding:11px 14px;border:1px solid var(--brl);border-radius:4px;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--ink);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B8965A' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;outline:none;cursor:pointer;-webkit-appearance:none;width:100%}
+.fsel:focus{border-color:var(--gld);background-color:var(--bgc)}
+.fsub{width:100%;padding:13px;background:var(--ink);color:#fff;border-radius:4px;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:none;margin-top:8px}
+.fsub:hover{background:var(--gld);color:var(--ink)}
+.fnote{font-size:11px;font-weight:300;color:var(--tau);text-align:center;margin-top:10px}
+.succ{display:none;text-align:center;padding:16px 0}
+.succ.on{display:block}
+.fcon.hide{display:none}
+.sico{width:52px;height:52px;background:var(--glb);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px}
+.sh{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--ink);margin-bottom:8px}
+.sp{font-size:15px;font-weight:300;color:var(--imu);line-height:1.7}
+.cgrid{display:grid;gap:10px;margin-bottom:18px}
+.crow{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border:1px solid var(--brl);border-radius:7px}
+.cico{width:34px;height:34px;background:var(--glb);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cico svg{width:15px;height:15px;stroke:var(--gld);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.clbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--tau);font-weight:300;margin-bottom:2px}
+.cval{font-size:13px;font-weight:300;color:var(--ink)}
+
+/* MOBILE MENU */
+.mob{display:none;position:fixed;inset:0;z-index:998;background:var(--bg);flex-direction:column;justify-content:center;align-items:flex-start;padding:80px clamp(28px,6vw,60px) 40px}
+.mob.on{display:flex}
+.mobl{display:flex;flex-direction:column;gap:0}
+.mobl a{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5.5vw,40px);font-weight:300;color:var(--ink);padding:10px 0;border-bottom:1px solid var(--brl);display:block;transition:color .2s;cursor:pointer}
+.mobl a:first-child{border-top:1px solid var(--brl)}
+.mobl a:hover{color:var(--gld)}
+.mobcta{margin-top:28px;display:flex;flex-direction:column;gap:10px;width:100%}
+.mobcl{position:fixed;top:18px;right:clamp(18px,5vw,36px);width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:21px;color:var(--inm);z-index:999;background:none;border:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:990;height:var(--nh);background:rgba(249,247,243,.95);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.sc{border-color:var(--brl)}
+.nw{max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,52px);height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nlogo{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.nname{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;letter-spacing:.07em;color:var(--ink);text-transform:uppercase;line-height:1}
+.nsub{font-family:'Jost',sans-serif;font-size:8px;font-weight:300;letter-spacing:.24em;color:var(--tau);text-transform:uppercase;margin-top:3px}
+.nlinks{display:flex;align-items:center;gap:22px}
+.nlinks a{font-size:12px;font-weight:300;letter-spacing:.07em;text-transform:uppercase;color:var(--inm);transition:color .2s;cursor:pointer}
+.nlinks a:hover{color:var(--gld)}
+.ncta{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.bgh{padding:8px 17px;border:1px solid var(--brd);border-radius:4px;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:.1em;text-transform:uppercase;color:var(--inm);transition:all .25s;cursor:pointer;background:transparent}
+.bgh:hover{border-color:var(--gld);color:var(--gld)}
+.bdk{padding:8px 19px;background:var(--ink);color:#fff;border-radius:4px;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;cursor:pointer;border:none}
+.bdk:hover{background:var(--gld);color:var(--ink)}
+.ham{display:none;flex-direction:column;gap:5px;padding:6px;cursor:pointer;background:none;border:none}
+.ham span{display:block;height:1px;background:var(--ink)}
+.ham span:nth-child(1),.ham span:nth-child(3){width:22px}
+.ham span:nth-child(2){width:14px}
+@media(max-width:900px){.nlinks{display:none}.bgh{display:none}.ham{display:flex}}
+
+/* HERO */
+.hero{height:100svh;min-height:560px;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:#f8f6f2}
+.hfade{position:absolute;inset:0;z-index:1;background:linear-gradient(to right,rgba(249,247,243,.88) 38%,transparent 75%),linear-gradient(to top,rgba(249,247,243,.9) 0%,transparent 50%)}
+.hslides{position:absolute;inset:0}
+.hslide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;background-size:cover;background-position:center}
+.hslide.on{opacity:1}
+.sl1{background-image:url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1800&q=80')}
+.sl2{background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=80')}
+.sl3{background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=80')}
+.sl4{background-image:url('https://images.unsplash.com/photo-1448630360428-65456885c650?w=1800&q=80')}
+.hcon{position:relative;z-index:2;max-width:1280px;margin:0 auto;width:100%;padding:0 clamp(18px,4vw,52px) clamp(44px,8vh,92px)}
+.htag{display:inline-flex;align-items:center;gap:9px;margin-bottom:20px;padding:6px 15px;border:1px solid rgba(184,150,90,.35);border-radius:100px;background:rgba(255,255,255,.6)}
+.hpulse{width:5px;height:5px;border-radius:50%;background:var(--gld);animation:pu 2s ease-in-out infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.35}}
+.htxt{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gld);font-weight:300}
+.hh1{font-family:'Raleway',sans-serif;font-size:clamp(28px,5.5vw,68px);font-weight:200;line-height:1.12;color:var(--ink);letter-spacing:.04em;margin-bottom:18px}
+.hh1 em{font-style:normal;font-weight:300;color:var(--gld)}
+.hsub{font-size:clamp(13px,1.4vw,15px);color:var(--imu);max-width:450px;line-height:1.82;font-weight:300;margin-bottom:28px}
+.hbtns{display:flex;flex-wrap:wrap;gap:10px}
+.hbg{display:inline-flex;align-items:center;gap:8px;padding:clamp(10px,1.5vw,13px) clamp(20px,2.5vw,28px);background:var(--gld);color:var(--ink);border-radius:4px;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;cursor:pointer;border:none}
+.hbg:hover{background:var(--gll)}
+.hbo{display:inline-flex;align-items:center;gap:8px;padding:clamp(10px,1.5vw,13px) clamp(20px,2.5vw,28px);border:1px solid rgba(26,25,22,.22);color:var(--inm);border-radius:4px;font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;cursor:pointer;background:rgba(255,255,255,.5)}
+.hbo:hover{border-color:var(--gld);color:var(--gld)}
+.sdots{position:absolute;bottom:clamp(44px,8vh,92px);right:clamp(18px,4vw,52px);z-index:2;display:flex;flex-direction:column;gap:8px}
+.sdot{width:2px;height:22px;background:rgba(26,25,22,.18);cursor:pointer;transition:all .3s}
+.sdot.on{background:var(--gld);height:38px}
+
+/* STATS */
+.stbar{background:var(--bgc);border-bottom:1px solid var(--brl)}
+.stinn{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.stcl{padding:clamp(18px,2.5vw,30px) clamp(16px,2.2vw,26px);border-right:1px solid var(--brl);transition:background .25s}
+.stcl:last-child{border-right:none}
+.stcl:hover{background:var(--glb)}
+.stn{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,40px);font-weight:300;color:var(--ink);line-height:1;margin-bottom:4px}
+.stn em{font-style:normal;color:var(--gld)}
+.stl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tau);font-weight:300}
+@media(max-width:600px){.stinn{grid-template-columns:repeat(2,1fr)}.stcl:nth-child(2){border-right:none}.stcl:nth-child(1),.stcl:nth-child(2){border-bottom:1px solid var(--brl)}}
+
+/* ABOUT */
+.abtg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,76px);align-items:center}
+@media(max-width:780px){.abtg{grid-template-columns:1fr}}
+.abimg{aspect-ratio:3/4;overflow:hidden;border-radius:4px;position:relative}
+.abimg img{width:100%;height:100%;object-fit:cover}
+.abimg::after{content:'';position:absolute;inset:0;border:1px solid rgba(184,150,90,.15);border-radius:4px;pointer-events:none}
+.abst{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
+.absc{border-top:1px solid var(--brd);padding-top:1rem}
+.absn{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gld);line-height:1;margin-bottom:.3rem}
+.absl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tau)}
+
+/* SECTION */
+.sec{padding:clamp(52px,7vw,96px) 0}
+.wr{max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,52px)}
+.seye{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tau);font-weight:300;margin-bottom:11px}
+.srul{width:34px;height:1px;background:var(--gld);margin-bottom:18px}
+.srul.c{margin-left:auto;margin-right:auto}
+.sh2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,50px);font-weight:300;line-height:1.1;letter-spacing:-0.02em;color:var(--ink)}
+.sh2 em{font-style:italic;color:var(--gld)}
+.sp2{font-size:15px;font-weight:300;color:var(--inm);line-height:1.8;max-width:490px;margin-top:13px}
+
+/* SERVICES */
+.svgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--brl);border:1px solid var(--brl);border-radius:12px;overflow:hidden;margin-top:40px}
+@media(max-width:720px){.svgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.svgrid{grid-template-columns:1fr}}
+.svcard{background:var(--bgc);padding:clamp(20px,2.5vw,34px);display:flex;flex-direction:column;gap:11px;transition:background .3s;cursor:pointer}
+.svcard:hover{background:var(--glb)}
+.svnum{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:var(--gld)}
+.svrng{width:38px;height:38px;border:1px solid var(--brd);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.svrng svg{width:15px;height:15px;stroke:var(--gld);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.svnm{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;color:var(--ink);line-height:1.2}
+.svds{font-size:14px;font-weight:300;color:var(--imu);line-height:1.75;flex:1}
+.svlk{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tau);font-weight:300;display:flex;align-items:center;gap:6px;transition:color .2s;margin-top:4px}
+.svcard:hover .svlk{color:var(--gld)}
+
+/* DARK SECTION */
+.dsec{background:var(--bdk)}
+.ctrg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,76px);align-items:center}
+@media(max-width:780px){.ctrg{grid-template-columns:1fr}}
+.dlbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gld);font-weight:300;margin-bottom:13px}
+.dh{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.8vw,46px);font-weight:300;color:var(--ink);line-height:1.1;letter-spacing:-0.02em;margin-bottom:14px}
+.dh em{font-style:italic;color:var(--gld)}
+.dp{font-size:15px;font-weight:300;color:var(--imu);line-height:1.8;margin-bottom:26px}
+.benl{display:flex;flex-direction:column}
+.benr{display:flex;align-items:flex-start;gap:15px;padding:13px 0;border-bottom:1px solid var(--brl)}
+.benr:first-child{border-top:1px solid var(--brl)}
+.benn{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gld);min-width:19px;padding-top:1px;font-weight:300}
+.bent{font-size:14px;font-weight:300;color:var(--imu);line-height:1.6}
+.bent strong{color:var(--ink);font-weight:400}
+
+/* DASHBOARD */
+.dash{background:var(--bgc);border:1px solid var(--brl);border-radius:12px;overflow:hidden}
+.dhdr{display:flex;align-items:center;justify-content:space-between;padding:12px 17px;border-bottom:1px solid var(--brl)}
+.dtit{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tau);font-weight:300}
+.live{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:300;color:var(--gld)}
+.live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gld);animation:pu 2s ease-in-out infinite}
+.dbdy{padding:16px}
+.dm{background:var(--bgw);border-radius:7px;padding:13px 15px;margin-bottom:9px}
+.dmt{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:7px}
+.dml{font-size:11px;color:var(--tau);font-weight:300}
+.dmv{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink);line-height:1}
+.dms{font-size:10px;color:var(--gld)}
+.btrk{height:3px;background:var(--brl);border-radius:2px;overflow:hidden}
+.bfll{height:100%;background:var(--gld);border-radius:2px;width:0;transition:width 1.4s var(--ease)}
+.dtgs{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.dtg{padding:5px 11px;border:1px solid rgba(140,115,85,.3);border-radius:100px;font-size:11px;color:var(--gld);font-weight:300;letter-spacing:.03em}
+.dact{width:100%;margin-top:13px;padding:10px;border:1px solid rgba(140,115,85,.35);border-radius:4px;color:var(--gld);font-size:11px;font-family:'Jost',sans-serif;letter-spacing:.1em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all .25s;font-weight:300}
+.dact:hover{background:var(--glb);border-color:var(--gld)}
+
+/* LAND OWNER */
+.log{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,76px);align-items:start}
+@media(max-width:780px){.log{grid-template-columns:1fr}}
+.lofl{display:flex;flex-direction:column;margin-top:28px}
+.lof{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--brl)}
+.lof:first-child{border-top:1px solid var(--brl)}
+.loic{width:34px;height:34px;min-width:34px;background:var(--glb);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.loic svg{width:14px;height:14px;stroke:var(--gld);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.lof h4{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--ink);margin-bottom:4px}
+.lof p{font-size:14px;font-weight:300;color:var(--imu);line-height:1.7}
+.fcard{background:var(--bgc);border:1px solid var(--brl);border-radius:18px;padding:clamp(22px,3.5vw,40px)}
+.fbadge{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;background:var(--glb);border-radius:100px;font-size:11px;color:var(--gld);letter-spacing:.08em;text-transform:uppercase;font-weight:400;margin-bottom:12px}
+.fh{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--ink);margin-bottom:3px}
+.fs{font-size:13px;font-weight:300;color:var(--tau);margin-bottom:20px}
+
+/* DIGITAL TWIN */
+.twg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,76px);align-items:center}
+@media(max-width:780px){.twg{grid-template-columns:1fr}}
+.twfl{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.twf{display:flex;align-items:center;gap:13px;padding:12px 15px;background:var(--bgw);border-radius:7px;border:1px solid var(--brl)}
+.twfi{width:32px;height:32px;min-width:32px;background:var(--glb);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.twfi svg{width:14px;height:14px;stroke:var(--gld);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.twft{font-size:13px;color:var(--ink);margin-bottom:2px;font-weight:300}
+.twfs{font-size:11px;color:var(--tau);font-weight:300}
+.tpls{display:flex;flex-wrap:wrap;gap:7px}
+.tpl{padding:6px 13px;border:1px solid rgba(140,115,85,.25);border-radius:100px;font-size:11px;font-weight:300;color:var(--imu);letter-spacing:.03em}
+.twp{background:var(--bgc);border:1px solid var(--brl);border-radius:12px;overflow:hidden}
+.twhdr{display:flex;align-items:center;gap:7px;padding:12px 15px;border-bottom:1px solid var(--brl)}
+.twdt{width:7px;height:7px;border-radius:50%}
+.twht{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tau);font-weight:300;margin-left:auto}
+.twsa{padding:18px;display:flex;align-items:center;justify-content:center}
+.twrws{padding:0 15px 16px}
+.twr{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--brl)}
+.twr:last-child{border-bottom:none}
+.twrl{font-size:11px;font-weight:300;color:var(--tau)}
+.twrv{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:var(--ink)}
+.twrv span{font-family:'Jost',sans-serif;font-size:10px;color:var(--gld)}
+
+/* AI */
+.aics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+@media(max-width:780px){.aics{grid-template-columns:1fr}}
+.aic{background:var(--bgc);border:1px solid var(--brl);border-radius:12px;padding:clamp(18px,2.5vw,30px);display:flex;flex-direction:column;gap:11px;transition:all .3s;cursor:pointer}
+.aic:hover{border-color:var(--gld);transform:translateY(-3px)}
+.aict{display:flex;justify-content:space-between;align-items:flex-start}
+.aipl{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:var(--glb);border-radius:100px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--gld);font-weight:400}
+.aipl::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gld);animation:pu 1.5s ease-in-out infinite}
+.ain{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:var(--tau)}
+.aic h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--ink)}
+.aic p{font-size:13px;font-weight:300;color:var(--imu);line-height:1.75;flex:1}
+.aif{margin-top:auto;padding-top:14px;border-top:1px solid var(--brl);display:flex;align-items:flex-end;justify-content:space-between}
+.ais{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gld);line-height:1}
+.aisl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--inf);font-weight:300}
+.aib{padding:7px 13px;border:1px solid var(--brd);border-radius:4px;font-size:11px;font-family:'Jost',sans-serif;color:var(--imu);cursor:pointer;background:transparent;letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
+.aib:hover{border-color:var(--gld);color:var(--gld)}
+
+/* CALCULATOR */
+.cw{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,68px);align-items:start;margin-top:40px}
+@media(max-width:780px){.cw{grid-template-columns:1fr}}
+.ctbs{display:flex;background:var(--bgw);border:1px solid var(--brl);border-radius:4px;padding:3px;overflow-x:auto;scrollbar-width:none;margin-bottom:22px}
+.ctbs::-webkit-scrollbar{display:none}
+.ctb{padding:7px 14px;border-radius:3px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--imu);cursor:pointer;white-space:nowrap;transition:all .2s;border:none;background:transparent;font-family:'Jost',sans-serif;font-weight:300}
+.ctb.act{background:var(--bgc);color:var(--ink)}
+.slg{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.slt{display:flex;justify-content:space-between;align-items:baseline}
+.sll{font-size:13px;font-weight:300;color:var(--inm)}
+.slv{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;color:var(--ink)}
+.slr{width:100%;-webkit-appearance:none;appearance:none;height:2px;background:var(--brd);border-radius:1px;outline:none;cursor:pointer}
+.slr::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--ink);cursor:pointer;border:2.5px solid var(--bgc);box-shadow:0 0 0 1px var(--tal)}
+.slr::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--ink);cursor:pointer;border:2.5px solid var(--bgc)}
+.rbox{background:var(--bdk);border-radius:18px;padding:clamp(20px,3.5vw,34px)}
+.rtit{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tau);font-weight:300;margin-bottom:18px}
+.rrow{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.rrow:last-of-type{border-bottom:none}
+.rlbl{font-size:12px;font-weight:300;color:var(--tau);margin-bottom:4px}
+.rval{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,32px);font-weight:300;color:var(--ink);line-height:1}
+.rsub{font-size:11px;color:var(--gld);margin-top:3px;font-weight:300}
+.rval.g{color:var(--gld)}
+.ract{display:block;width:100%;margin-top:18px;padding:12px;background:var(--gld);color:var(--ink);text-align:center;border-radius:4px;font-size:11px;font-family:'Jost',sans-serif;letter-spacing:.12em;text-transform:uppercase;transition:all .25s;cursor:pointer;border:none;font-weight:400}
+.ract:hover{background:var(--gll)}
+
+/* PROJECTS */
+.pg-featured{display:grid;grid-template-columns:5fr 3fr;gap:14px;margin-top:40px;margin-bottom:14px}
+@media(max-width:780px){.pg-featured{grid-template-columns:1fr}}
+.pg-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:780px){.pg-list{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.pg-list{grid-template-columns:1fr}}
+.pgcd{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;min-height:300px;transition:transform .3s}
+.pgcd:hover{transform:translateY(-3px)}
+.pgfd{position:absolute;inset:0;background:linear-gradient(to top,rgba(200,190,175,.6) 0%,transparent 60%)}
+.pgcn{position:relative;z-index:1;padding:20px}
+.pgtg{display:inline-block;padding:3px 10px;border:1px solid rgba(140,115,85,.4);border-radius:100px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gld);font-weight:300;margin-bottom:8px}
+.pgcd h3{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2vw,22px);font-weight:300;color:var(--ink);letter-spacing:-0.01em;margin-bottom:4px}
+.pgcd p{font-size:12px;font-weight:300;color:var(--imu);line-height:1.6}
+.pgsts{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
+.pgst{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--gld)}
+.pgst span{display:block;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--tau);font-weight:300}
+.pg-right{display:flex;flex-direction:column;gap:14px}
+.pgsm{min-height:145px}
+.pgxs{min-height:125px}
+.pg-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pg-tech{padding:3px 9px;border:1px solid rgba(140,115,85,.3);border-radius:100px;font-size:10px;color:var(--imu);font-weight:300;font-family:'Jost',sans-serif}
+
+/* BLOG */
+.blgr{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
+@media(max-width:760px){.blgr{grid-template-columns:1fr}}
+.blgc{cursor:pointer}
+.blgi{width:100%;aspect-ratio:16/10;border-radius:7px;overflow:hidden;margin-bottom:14px;position:relative}
+.blgif{position:absolute;inset:0;transition:transform .4s var(--ease)}
+.blgc:hover .blgif{transform:scale(1.04)}
+.blgct{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gld);font-weight:400;margin-bottom:6px}
+.blgtt{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:6px;transition:color .2s}
+.blgc:hover .blgtt{color:var(--gld)}
+.blgmt{font-size:12px;font-weight:300;color:var(--inf)}
+.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:28px}
+@media(max-width:700px){.team-grid{grid-template-columns:1fr}}.team-card{display:flex;gap:20px;padding:28px;border:1px solid var(--brl);border-radius:8px;background:var(--bgw);transition:box-shadow .2s}
+.team-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.team-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Jost',sans-serif;font-size:16px;font-weight:500;color:#fff;letter-spacing:.05em}
+.team-name{font-size:17px;font-weight:500;color:var(--ind);margin-bottom:3px}
+.team-role{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gld);margin-bottom:10px;font-weight:400}
+.team-desc{font-size:14px;color:var(--inm);line-height:1.65;margin-bottom:12px}
+.team-tags{display:flex;flex-wrap:wrap;gap:6px}
+.team-tags span{font-size:10px;padding:3px 9px;border:1px solid var(--brl);border-radius:100px;color:var(--inm);letter-spacing:.06em;text-transform:uppercase}
+.team-li{display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gld);text-decoration:none;border-bottom:1px solid rgba(184,150,90,.3);padding-bottom:1px;transition:border-color .2s}
+.team-li:hover{border-color:var(--gld)}
+.fsoc{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.fsocbtn{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border:1px solid var(--brl);border-radius:100px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--inm);text-decoration:none;font-family:'Jost',sans-serif;transition:all .2s}
+.fsocbtn:hover{border-color:var(--gld);color:var(--gld)}
+.pgfilter{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 24px;align-items:center}
+.pgfbtn{padding:6px 14px;border:1px solid var(--brl);border-radius:100px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--inm);font-family:'Jost',sans-serif;background:transparent;cursor:pointer;transition:all .2s;white-space:nowrap}
+.pgfbtn:hover{border-color:var(--gld);color:var(--gld)}
+.pgfbtn.active{background:var(--gld);border-color:var(--gld);color:#fff}
+.pgfsep{width:1px;height:20px;background:var(--brl);margin:0 4px}
+.pg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.pg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.pg-grid{grid-template-columns:1fr}}
+.pg-sektag{position:absolute;top:14px;right:14px;padding:3px 10px;border-radius:100px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;z-index:2}
+.kamu-tag{background:rgba(90,130,184,.15);color:#5a82b8;border:1px solid rgba(90,130,184,.3)}
+.ozel-tag{background:rgba(184,150,90,.15);color:var(--gld);border:1px solid rgba(184,150,90,.3)}
+.blgex{font-size:14px;color:var(--inm);line-height:1.65;margin:8px 0 10px;opacity:.8}
+
+/* FINAL CTA */
+.fin{background:var(--bdk);position:relative;overflow:hidden}
+.finn{position:relative;z-index:1;text-align:center;padding:clamp(60px,9vh,116px) clamp(18px,4vw,52px)}
+.fkck{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gld);font-weight:300;margin-bottom:18px}
+.finh{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5.5vw,68px);font-weight:300;color:var(--ink);letter-spacing:-0.02em;line-height:1.06;margin-bottom:16px}
+.finh em{font-style:italic;color:var(--gld)}
+.finp{font-size:14px;font-weight:300;color:var(--imu);max-width:400px;margin:0 auto 32px;line-height:1.8}
+.fbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ftrs{display:flex;justify-content:center;gap:24px;margin-top:32px;flex-wrap:wrap}
+.ftr{font-size:12px;font-weight:300;color:var(--tau);display:flex;align-items:center;gap:6px}
+.ftr::before{content:'';width:10px;height:1px;background:var(--gld);opacity:.45}
+
+/* FOOTER */
+footer{background:#f8f6f2;padding:clamp(40px,6vw,76px) 0 22px}
+.ftop{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:36px;max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,52px);margin-bottom:40px}
+@media(max-width:720px){.ftop{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.ftop{grid-template-columns:1fr}}
+.fbn{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--ink);letter-spacing:.06em;text-transform:uppercase}
+.fbs{font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--tau);margin-top:2px;margin-bottom:13px}
+.fab{font-size:13px;font-weight:300;color:var(--imu);line-height:1.75;max-width:230px;margin-top:14px}
+.fch{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tau);font-weight:300;margin-bottom:15px}
+.flks{display:flex;flex-direction:column;gap:10px}
+.flks a{font-size:13px;font-weight:300;color:var(--inm);transition:color .2s;cursor:pointer}
+.flks a:hover{color:var(--gld)}
+.fbot{max-width:1280px;margin:0 auto;padding:18px clamp(18px,4vw,52px) 0;border-top:1px solid var(--brl);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.fcp{font-size:11px;font-weight:300;color:var(--tau)}
+.flg{display:flex;gap:16px}
+.flg a{font-size:11px;font-weight:300;color:var(--tau);transition:color .2s}
+.flg a:hover{color:var(--gld)}
+
+/* SCROLL FADE */
+.fu{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.fu.vis{opacity:1;transform:none}
+.fu:nth-child(2){transition-delay:.07s}.fu:nth-child(3){transition-delay:.14s}
+.fu:nth-child(4){transition-delay:.21s}.fu:nth-child(5){transition-delay:.28s}
+.fu:nth-child(6){transition-delay:.35s}
+
+@media(max-width:460px){.hbtns,.fbtns{flex-direction:column}.hbg,.hbo{width:100%;justify-content:center}}
+@media(hover:none){.svcard:hover,.aic:hover,.blgc:hover{transform:none;background:inherit}}
+</style>
+</head>
+<body>
+
+<!-- FORM MODAL -->
+<div class="ovl" id="fmod">
+  <div class="mbox">
+    <button class="mcl" onclick="cmod('fmod')">✕</button>
+    <div class="fcon" id="fcon">
+      <div class="mbadge">Ücretsiz</div>
+      <h3 class="mh" id="mtit">Arsa Fizibilite Formu</h3>
+      <p class="ms" id="mdsc">48 saat içinde uzman ekibimiz sizi arar.</p>
+      <div class="ff"><label class="fl">Ad Soyad</label><input type="text" class="fi" id="fn" placeholder="Adınızı girin"></div>
+      <div class="ff"><label class="fl">Telefon</label><input type="tel" class="fi" id="ft" placeholder="+90 (___) ___ ____"></div>
+      <div class="ff"><label class="fl">E-posta</label><input type="email" class="fi" placeholder="e-posta@adresiniz.com"></div>
+      <div class="ff"><label class="fl">Arsa Konumu</label><input type="text" class="fi" placeholder="İlçe, Mahalle veya Ada/Parsel"></div>
+      <div class="ff"><label class="fl">Arsa Büyüklüğü</label>
+        <select class="fsel"><option>500 m² altı</option><option>500–2.000 m²</option><option>2.000–10.000 m²</option><option>10.000 m² üzeri</option></select>
+      </div>
+      <div class="ff"><label class="fl">Hedef</label>
+        <select class="fsel"><option>Geliştirme ve satış</option><option>Müteahhitle ortak proje</option><option>Kentsel dönüşüm</option><option>Yatırım değerlendirmesi</option><option>Proje danışmanlığı</option><option>Uzlaştırma ve arabuluculuk</option><option>Hukuki danışmanlık</option><option>Teknik şartname hazırlığı</option><option>Otomasyon ve mekanik sistemler</option><option>Hukuki regülasyon ve uyum</option><option>Belediye ve kamu işleri</option><option>Elektrik, zayıf akım ve IT altyapısı</option><option>Statik, betonarme ve çelik yapı</option><option>Güçlendirme ve zemin mühendisliği</option><option>Yatırım ve finans danışmanlığı</option></select>
+      </div>
+      <button class="fsub" onclick="subForm()">Gönder →</button>
+      <p class="fnote">🔒 Bilgileriniz gizli tutulur.</p>
+    </div>
+    <div class="succ" id="fsucc">
+      <div class="sico">✓</div>
+      <h3 class="sh">Talebiniz Alındı!</h3>
+      <p class="sp">Uzman ekibimiz en geç <strong>48 saat</strong> içinde sizinle iletişime geçecektir.<br><br>Teşekkür ederiz.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="ovl" id="cntmod">
+  <div class="mbox" style="max-width:400px">
+    <button class="mcl" onclick="cmod('cntmod')">✕</button>
+    <div class="mbadge">İletişim</div>
+    <h3 class="mh">Bize Ulaşın</h3>
+    <p class="ms">Projeniz için konuşalım.</p>
+    <div class="cgrid">
+      <div class="crow">
+        <div class="cico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div><div class="clbl">Telefon</div><div class="cval">+90 (544) 224 95 84</div></div>
+      </div>
+      <div class="crow">
+        <div class="cico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><div class="clbl">E-posta</div><div class="cval">info@eyaproje.com</div></div>
+      </div>
+      <div class="crow">
+        <div class="cico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="clbl">Adres</div><div class="cval">Üsküdar, Beşiktaş, İstanbul</div></div>
+      </div>
+    </div>
+    <button class="fsub" onclick="omod('fmod','Randevu Talebi','Size uygun zaman ve konuyu belirleyelim.')">Randevu Al →</button>
+  </div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mobm">
+  <button class="mobcl" onclick="cmob()">✕</button>
+  <nav class="mobl">
+    <a onclick="goto('sv')">Hizmetler</a>
+    <a onclick="goto('pg')">Projeler</a>
+    <a onclick="goto('about')">Hakkında</a>
+  </nav>
+  <div class="mobcta">
+    <button class="fsub" style="border-radius:4px" onclick="cmob();omod('fmod','Ücretsiz Arsa Analizi','48 saat içinde uzman ekibimiz sizi arar.')">Ücretsiz Analiz →</button>
+    <button class="bgh" style="text-align:center;width:100%" onclick="cmob();omod('cntmod')">İletişim</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nw">
+    <div class="nlogo">
+      <div><div class="nname">EYA Proje</div><div class="nsub">Mühendislik · Mimarlık · Müşavirlik</div></div>
+    </div>
+    <div class="nlinks">
+      <a onclick="goto('sv')">Hizmetler</a>
+      <a onclick="goto('pg')">Projeler</a>
+      <a onclick="goto('about')">Hakkında</a>
+    </div>
+    <div class="ncta">
+      <a href="https://calendar.app.google/p4TJvzBD4hweFwkDA" target="_blank" class="bgh" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Online Toplantı
+      </a>
+      <button class="bdk" onclick="omod('fmod','Ücretsiz Analiz','48 saat içinde uzman ekibimiz sizi arar.')">Analiz Al</button>
+    </div>
+    <button class="ham" onclick="omob()" aria-label="Menü"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hslides">
+    <div class="hslide sl1 on"></div>
+    <div class="hslide sl2"></div>
+    <div class="hslide sl3"></div>
+    <div class="hslide sl4"></div>
+  </div>
+  <div class="hfade"></div>
+  <div class="hcon">
+
+    <h1 class="hh1">Fikir aşamasından teslime,<br><em>her adımda</em><br>doğru mühendislik.</h1>
+    <p class="hsub">Mimarlık, mühendislik ve müşavirliği tek çatıda birleştiren EYA Proje; fizibilite analizinden teslime kadar yanınızda.</p>
+    <div class="hbtns">
+      <button class="hbg" onclick="omod('fmod','Ücretsiz Arsa Analizi','48 saat içinde uzman ekibimiz sizi arar.')">Ücretsiz Arsa Analizi →</button>
+      <button class="hbo" onclick="goto('calc')">Fizibilite Hesapla</button>
+      <button class="hbo" onclick="goto('ctr')">Proje Danışmanlığı</button>
+    </div>
+  </div>
+  <div class="sdots" id="sdots">
+    <div class="sdot on" onclick="goSlide(0)"></div>
+    <div class="sdot" onclick="goSlide(1)"></div>
+    <div class="sdot" onclick="goSlide(2)"></div>
+    <div class="sdot" onclick="goSlide(3)"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stbar">
+  <div class="stinn">
+    <div class="stcl fu"><div class="stn"><em>100</em>+</div><div class="stl">Tamamlanan Proje</div></div>
+    <div class="stcl fu"><div class="stn"><em>18</em>+ Yıl</div><div class="stl">Sektör Deneyimi</div></div>
+    <div class="stcl fu"><div class="stn"><em>6</em> Ülke</div><div class="stl">Uluslararası Proje</div></div>
+    <div class="stcl fu"><div class="stn">T3/<em>T4</em></div><div class="stl">DC Sertifikasyonu</div></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="sec" id="about" style="background:var(--bgc)">
+  <div class="wr">
+    <div class="abtg">
+      <div>
+        <div class="seye">Hakkında</div><div class="srul"></div>
+        <h2 class="sh2">EYA<br><em>Proje</em></h2>
+        <p class="sp2">EYA Proje, mühendislik, mimarlık ve müşavirlik disiplinlerini tek çatı altında birleştiren İstanbul merkezli çok disiplinli proje ekibidir. İnşaat mühendisliği, statik-betonarme-çelik yapı, elektrik mühendisliği, zayıf akım, IT altyapısı ve veri merkezi tasarımı alanlarında uzman kadrosuyla yapay zeka destekli analiz araçları ve dijital ikiz teknolojisini projelerine entegre ederek müteahhitler, arsa sahipleri, yatırımcılar ve kamu kurumları için ölçülebilir değer üretiyoruz.</p>
+        <p class="sp2" style="margin-top:12px">Türkiye, Katar, Libya, Çin ve Avrupa'da 100'den fazla büyük ölçekli projeyi tamamlamış, finans, telco, kamu, sağlık ve endüstriyel sektörlerde uçtan uca çözümler sunmuş deneyimli bir kadroyla hizmetinizdeyiz.</p>
+        <div class="abst">
+          <div class="absc fu"><div class="absn">100+</div><div class="absl">Tamamlanan Proje</div></div>
+          <div class="absc fu"><div class="absn">18+</div><div class="absl">Yıllık Deneyim</div></div>
+          <div class="absc fu"><div class="absn">6</div><div class="absl">Ülke</div></div>
+          <div class="absc fu"><div class="absn">T3/T4</div><div class="absl">DC Sertifikasyonu</div></div>
+        </div>
+      </div>
+      <div class="abimg fu">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" alt="EYA Proje Mühendislik & Mimarlık & Müşavirlik">
+      </div>
+    </div>
+
+    <!-- EKİP -->
+    <div style="margin-top:52px">
+      <div class="seye">Ekibimiz</div><div class="srul"></div>
+      <h2 class="sh2">Alanında uzman<br><em>mühendislik kadrosu</em></h2>
+      <div class="team-grid">
+
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#B8965A,#8a6f3f)">
+            <span>EA</span>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Eylül YILMAZ</div>
+            <div class="team-role">Kurucu Ortak — Mimar</div>
+            <div class="team-desc">Mimari proje geliştirme, kentsel dönüşüm, arsa fizibilite ve yapay zeka destekli proje süreçleri.</div>
+            <div class="team-tags"><span>Mimarlık</span><span>Kentsel Dönüşüm</span><span>BIM</span><span>Dijital İkiz</span></div>
+            <a href="https://linkedin.com/in/eylulylmz" target="_blank" class="team-li">LinkedIn →</a>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#5a82b8,#3a5a8a)">
+            <span>İA</span>
+          </div>
+          <div class="team-info">
+            <div class="team-name">İlker ATASOY</div>
+            <div class="team-role">CTO — Sistem & Veri Merkezi Mimarı</div>
+            <div class="team-desc">18+ yıl BT altyapısı, veri merkezi tasarımı (ANSI/TIA-942 T3/T4), çözüm mimarlığı ve dijital dönüşüm. Türkiye, Katar, Libya, Çin ve Avrupa'da 100+ büyük ölçekli proje.</div>
+            <div class="team-tags"><span>ANSI/TIA-942 T3/T4</span><span>Cloud & DevOps</span><span>Network & SAN</span><span>Güvenlik</span><span>SCADA/HMI</span><span>PMP · TOGAF · CISSP</span></div>
+            <a href="https://linkedin.com/in/ilkeratasoy" target="_blank" class="team-li">LinkedIn →</a>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#b87a5a,#8a5a3a)">
+            <span>CA</span>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Ceren ATASOY</div>
+            <div class="team-role">İnşaat Mühendisi</div>
+            <div class="team-desc">Yapı denetimi, proje yönetimi ve inşaat süreçlerinin teknik koordinasyonu. Konut, karma kullanım ve altyapı projelerinde saha ve ofis mühendisliği.</div>
+            <div class="team-tags"><span>İnşaat Mühendisliği</span><span>Yapı Denetimi</span><span>Proje Yönetimi</span><span>Saha Koordinasyonu</span></div>
+            <a href="https://www.linkedin.com/in/ceren-atasoy-40a066194/" target="_blank" class="team-li">LinkedIn →</a>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#6a8a5a,#4a6a3a)">
+            <span>GZ</span>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Gürkan ZENGİN</div>
+            <div class="team-role">Statik & İnşaat Mühendisi</div>
+            <div class="team-desc">Betonarme ve çelik yapı statik hesapları, TBDY 2018 deprem tasarımı, güçlendirme projeleri ve zemin-temel mühendisliği. Konut, endüstriyel ve kamu yapıları deneyimi.</div>
+            <div class="team-tags"><span>Betonarme</span><span>Çelik Yapı</span><span>TBDY 2018</span><span>Güçlendirme</span><span>Zemin & Temel</span></div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#7a6aaa,#5a4a8a)">
+            <span>OP</span>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Okan İnal POLAT</div>
+            <div class="team-role">İnşaat Mühendisi — Sanat Yapıları Uzmanı</div>
+            <div class="team-desc">Köprü, viyadük ve sanat yapıları mühendisliğinde ödüllü deneyim. Fore kazık, radye temel ve derin temel sistemleri tasarımı. Büyük ölçekli altyapı ve ulaşım yapılarında teknik liderlik.</div>
+            <div class="team-tags"><span>Sanat Yapıları</span><span>Köprü & Viyadük</span><span>Fore Kazık</span><span>Radye Temel</span><span>Geoteknik</span><span>Ödüllü Mühendis</span></div>
+            <a href="https://www.linkedin.com/in/okan-inalpolat-602205135/" target="_blank" class="team-li">LinkedIn →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="sec" style="background:var(--bgc)" id="sv">
+  <div class="wr">
+    <div class="seye">Hizmet Alanları</div><div class="srul"></div>
+    <h2 class="sh2">Tek çatıda mühendislik,<br><em>mimarlık ve müşavirlik.</em></h2>
+    <p class="sp2">Statikten elektriğe, hukuki danışmanlıktan dijital ikize — uçtan uca proje desteği.</p>
+    <div class="svgrid">
+      <div class="svcard fu" onclick="omod('fmod','Mimari Proje Geliştirme','Konsept tasarımdan uygulama projelerine kadar ihtiyacınızı belirtin.')">
+        <div class="svnum">01</div><div class="svrng"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="svnm">Proje Geliştirme</div>
+        <div class="svds">Konsept tasarımdan uygulama projelerine kadar tüm mühendislik ve müşavirlik sürecinin tamamı. Estetik, fonksiyonellik ve mühendislik bir arada.</div>
+        <div class="svlk">Danışmanlık Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Arsa Fizibilite Analizi','48 saat içinde arsanız için detaylı fizibilite raporu.')">
+        <div class="svnum">02</div><div class="svrng"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="svnm">Arsa Fizibilite Analizi</div>
+        <div class="svds">Yapay zeka destekli arsa değerleme ve karlılık projeksiyonları. 48 saat içinde detaylı fizibilite raporu.</div>
+        <div class="svlk">Analiz İste <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Dijital İkiz Demo Talebi','Projeniz için dijital ikiz demosu hazırlayalım.')">
+        <div class="svnum">03</div><div class="svrng"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="svnm">Dijital İkiz Teknolojisi</div>
+        <div class="svds">Projenizin tüm yaşam döngüsünü simüle eden dijital ikiz teknolojisi. Kararlarınızı veriden besleyin.</div>
+        <div class="svlk">Demo İste <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Yatırım Analizi','ROI simülasyonu ve senaryo analizinizi hazırlayalım.')">
+        <div class="svnum">04</div><div class="svrng"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="svnm">Yatırım Analizi</div>
+        <div class="svds">ROI simülasyonu, risk değerlendirmesi ve çoklu senaryo analiziyle yatırım kararlarınızı güçlendirin.</div>
+        <div class="svlk">Analiz Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Kentsel Dönüşüm Danışmanlığı','Kentsel dönüşüm projenizi birlikte değerlendirelim.')">
+        <div class="svnum">05</div><div class="svrng"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="svnm">Kentsel Dönüşüm</div>
+        <div class="svds">Mevzuat uyumu, taşınma koordinasyonu ve değer optimizasyonu ile kentsel dönüşüm projelerinde tam destek.</div>
+        <div class="svlk">Bilgi Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Müteahhit Çözümleri','Müteahhit ihtiyaçlarınızı konuşalım.')">
+        <div class="svnum">06</div><div class="svrng"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="svnm">Müteahhit Çözümleri</div>
+        <div class="svds">Maliyet optimizasyonu, satış öncesi görselleştirme ve yapay zeka destekli proje senaryoları.</div>
+        <div class="svlk">Çözüm İste <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Uzlaştırma ve Arabuluculuk','Proje süreçlerindeki anlaşmazlıklarda profesyonel uzlaştırma hizmeti alın.')">
+        <div class="svnum">07</div><div class="svrng"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="svnm">Uzlaştırma & Arabuluculuk</div>
+        <div class="svds">Proje tarafları arasındaki anlaşmazlıklarda tarafsız arabuluculuk. Sözleşme ihtilafları, ortak proje müzakereleri ve hızlı çözüm süreçleri.</div>
+        <div class="svlk">Danışmanlık Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Hukuki Danışmanlık','İnşaat ve gayrimenkul hukuku alanında danışmanlık alın.')">
+        <div class="svnum">08</div><div class="svrng"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="svnm">Hukuki Danışmanlık</div>
+        <div class="svds">İmar mevzuatı, inşaat hukuku, kira sözleşmeleri ve gayrimenkul regülasyonları konularında uzman hukuki danışmanlık. Yasal süreçlerde yanınızdayız.</div>
+        <div class="svlk">Bilgi Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Teknik Şartname Hazırlığı','Projeniz için teknik şartname ve mahal listesi hazırlayalım.')">
+        <div class="svnum">09</div><div class="svrng"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <div class="svnm">Teknik Şartname</div>
+        <div class="svds">İhale ve uygulama süreçleri için ayrıntılı teknik şartname, mahal listesi ve yapım standartları hazırlığı. Hatasız ihale dökümanları.</div>
+        <div class="svlk">Teklif Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Otomasyon ve Mekanik Sistemler','Akıllı bina otomasyonu ve mekanik sistem danışmanlığı için bilgi alın.')">
+        <div class="svnum">11</div><div class="svrng"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+        <div class="svnm">Otomasyon & Mekanik</div>
+        <div class="svds">Akıllı bina otomasyon sistemleri, HVAC, asansör, yangın tesisat ve mekanik altyapı tasarımı ile danışmanlık hizmetleri.</div>
+        <div class="svlk">Danışmanlık Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Hukuki Regülasyon ve Uyum','İmar, çevre ve inşaat mevzuatına uyum danışmanlığı alın.')">
+        <div class="svnum">12</div><div class="svrng"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>
+        <div class="svnm">Hukuki Regülasyon & Uyum</div>
+        <div class="svds">İmar planı değişiklikleri, çevre mevzuatı, KVKK ve inşaat regülasyonlarına uyum süreçleri. Lisans ve izin başvurularında tam destek.</div>
+        <div class="svlk">Bilgi Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" >
+        <div class="svnum">13</div><div class="svrng"><svg viewBox="0 0 24 24"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
+        <div class="svnm">Belediye & Kamu İşleri</div>
+        <div class="svds">Belediyeler için kentsel dönüşüm koordinasyonu, altyapı projeleri, kamu yapıları teknik ve proje danışmanlığı ve ihale teknik desteği.</div>
+        <div class="svlk">Görüşme Talep Et <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Elektrik, Zayıf Akım ve IT Altyapısı','Elektrik mühendisliği, zayıf akım ve IT altyapısı konularında danışmanlık alın.')">
+        <div class="svnum">14</div><div class="svrng"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="svnm">Elektrik, Zayıf Akım & IT</div>
+        <div class="svds">
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Güç & Elektrik</strong>
+          Trafo, AG/OG pano tasarımı, UPS, jeneratör, topraklama, parafudr ve güç kalitesi analizi.<br><br>
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Zayıf Akım & IT</strong>
+          Veri merkezi &amp; sistem odası (TIA-942), Cat6A/OM4-OS2 fiber kablolama ve terminasyon, sunucu &amp; depolama sistemleri, core/distribution/access switch, router, firewall, Wi-Fi 6 (802.11ax), patch panel &amp; rack altyapısı. IP kamera, erişim kontrol, alarm, yangın algılama, PA/AV sistemleri, BMS/SCADA, KNX/DALI otomasyon.
+        </div>
+        <div class="svlk">Danışmanlık Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Statik ve Taşıyıcı Sistem Mühendisliği','Betonarme, çelik yapı ve güçlendirme projeleriniz için mühendislik danışmanlığı alın.')">
+        <div class="svnum">15</div><div class="svrng"><svg viewBox="0 0 24 24"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="22" x2="6" y2="2"/><line x1="18" y1="22" x2="18" y2="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="2" x2="21" y2="2"/></svg></div>
+        <div class="svnm">Statik & Taşıyıcı Sistem</div>
+        <div class="svds">
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Betonarme</strong>
+          Kolon-kiriş, perde duvar, radye/tekil temel tasarımı, TBDY 2018 deprem uyumu, donatı detaylandırması, kat kalıp planları.<br><br>
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Çelik Yapı</strong>
+          Çelik çerçeve, kafes kiriş, kompozit döşeme, birleşim detayları, Eurocode 3 / TS EN 1993 hesapları, fabrikasyon dökümanları.<br><br>
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Güçlendirme & Zemin</strong>
+          Mevcut yapı analizi, CFRP/manşon/çelik çerçeve güçlendirme, hasar tespit raporu, zemin etüdü değerlendirmesi, kazık/fore kazık, istinat ve iksa sistemi tasarımı.<br><br>
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Özel & Endüstriyel</strong>
+          Köprü &amp; viyadük, prefabrik sistem, yüksek katlı bina (P-delta, modal analiz), endüstriyel yapılar.
+        </div>
+        <div class="svlk">Mühendislik Teklifi Al <span>→</span></div>
+      </div>
+      <div class="svcard fu" onclick="omod('fmod','Yatırım ve Finans Danışmanlığı','Projenize finansal destek ve yatırım danışmanlığı için görüşelim.')">
+        <div class="svnum">16</div><div class="svrng"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="svnm">Yatırım & Finans Danışmanlığı</div>
+        <div class="svds">
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Proje Finansmanı</strong>
+          Projelere finansal destek sağlanması, SBA loan başvuruları ve yönetimi, özel faizli kredi yapılandırması, hibe ve teşvik programları danışmanlığı.<br><br>
+          <strong style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gld);font-weight:400;display:block;margin-bottom:6px">Yatırım Danışmanlığı</strong>
+          Gayrimenkul yatırım analizi, portföy değerlendirmesi, risk yönetimi, sermaye yapılandırması ve proje bazlı finansal modelleme ile getiri optimizasyonu.
+        </div>
+        <div class="svlk">Finansman Görüşmesi <span>→</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec dsec" id="ctr">
+  <div class="wr">
+    <div class="ctrg">
+      <div>
+        <div class="dlbl">Müteahhit Çözüm Merkezi</div>
+        <h2 class="dh">Proje çizen ofis değil,<br><em>uzman kadrosuyla</em><br>stratejik ortağınız</h2>
+        <p class="dp">Mühendislik, mimarlık ve müşavirlik disiplinlerini tek çatı altında toplayan EYA Proje ekibi. Arsa alımından teslime kadar her adımda yanınızdayız.</p>
+        <div class="benl">
+          <div class="benr"><span class="benn">01</span><span class="bent"><strong>Arsa fizibilite raporu</strong> — 48 saat içinde potansiyel analizi ve karlılık projeksiyonu</span></div>
+          <div class="benr"><span class="benn">02</span><span class="bent"><strong>Karlılık analizi</strong> — Çok değişkenli senaryo modellemesi ve risk matrisi</span></div>
+          <div class="benr"><span class="benn">03</span><span class="bent"><strong>Dijital ikiz</strong> — Projenin tüm yaşam döngüsünü inşaat öncesi simüle edin</span></div>
+          <div class="benr"><span class="benn">04</span><span class="bent"><strong>Maliyet optimizasyonu</strong> — YZ destekli malzeme ve işçilik optimizasyonu</span></div>
+          <div class="benr"><span class="benn">05</span><span class="bent"><strong>Satış öncesi görselleştirme</strong> — Foto-gerçekçi render ve 360° sanal tur</span></div>
+          <div class="benr"><span class="benn">06</span><span class="bent"><strong>YZ senaryo üretimi</strong> — Otomatik alternatif konsept ve plan üretimi</span></div>
+          <div class="benr"><span class="benn">07</span><span class="bent"><strong>Teknik şartname</strong> — İhale ve uygulama için eksiksiz döküman hazırlığı</span></div>
+          <div class="benr"><span class="benn">09</span><span class="bent"><strong>Otomasyon & mekanik</strong> — Akıllı bina sistemleri ve HVAC entegrasyon danışmanlığı</span></div>
+          <div class="benr"><span class="benn">10</span><span class="bent"><strong>Regülasyon & uyum</strong> — İmar ve inşaat mevzuatı, lisans ve izin süreçleri</span></div>
+          <div class="benr"><span class="benn">11</span><span class="bent"><strong>Elektrik & zayıf akım</strong> — Trafo, AG/OG pano, UPS, veri merkezi, IP kamera, BMS/SCADA</span></div>
+          <div class="benr"><span class="benn">12</span><span class="bent"><strong>IT altyapısı</strong> — Aktif/pasif sunucu, depolama, network cihazları, fiber backbone, Wi-Fi 6, sistem odası tasarımı ve terminasyonu</span></div>
+          <div class="benr"><span class="benn">13</span><span class="bent"><strong>Betonarme & çelik statik</strong> — TBDY 2018 deprem hesabı, donatı detayı, Eurocode 3 çelik yapı, fabrikasyon dökümanları</span></div>
+          <div class="benr"><span class="benn">14</span><span class="bent"><strong>Güçlendirme & zemin</strong> — CFRP/manşon güçlendirme, hasar tespiti, kazık/fore kazık, istinat ve iksa tasarımı</span></div>
+        </div>
+      </div>
+      <div class="dash">
+        <div class="dhdr"><div class="dtit">Proje Dashboard</div><div class="live">Canlı</div></div>
+        <div class="dbdy">
+          <div class="dm"><div class="dmt"><div><div class="dml">Tahmini Karlılık</div><div class="dms">340 daire · İstanbul</div></div><div class="dmv">%34.8</div></div></div>
+          <div class="dm"><div class="dmt" style="margin-bottom:8px"><span class="dml">Maliyet Optimizasyonu</span><span class="dms">₺4.2M tasarruf</span></div><div class="btrk"><div class="bfll" id="b1"></div></div></div>
+          <div class="dm"><div class="dmt" style="margin-bottom:8px"><span class="dml">Ön Satış Oranı</span><span class="dms">68 / 340 daire</span></div><div class="btrk"><div class="bfll" id="b2"></div></div></div>
+          <div class="dm"><div class="dmt" style="margin-bottom:8px"><span class="dml">Dijital İkiz Doğruluğu</span><span class="dms">%97.3</span></div><div class="btrk"><div class="bfll" id="b3"></div></div></div>
+          <div class="dtgs"><span class="dtg">Fizibilite ✓</span><span class="dtg">Dijital İkiz ✓</span><span class="dtg">YZ Analiz ✓</span></div>
+          <button class="dact" onclick="omod('fmod','Müteahhit — Detaylı Analiz','Projeniz için özel analiz paketi hazırlayalım.')">Detaylı Analiz İste →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAND OWNER -->
+<section class="sec" id="lo" style="background:var(--bg)">
+  <div class="wr">
+    <div class="log">
+      <div>
+        <div class="seye">Arsa Sahipleri İçin</div><div class="srul"></div>
+        <h2 class="sh2">Arsanızın <em>gerçek</em><br>potansiyelini öğrenin</h2>
+        <p class="sp2">Yapay zeka destekli analiz motorumuz, arsanızın imar durumu, konumu ve piyasa verilerini birleştirerek 48 saat içinde kapsamlı fizibilite raporu sunar.</p>
+        <div class="lofl">
+          <div class="lof"><div class="loic"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><h4>Konum Analizi</h4><p>Ulaşım, altyapı, çevre değerleri ve gelişim projeksiyonları dahil kapsamlı konum raporu.</p></div></div>
+          <div class="lof"><div class="loic"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><h4>İmar Optimizasyonu</h4><p>Mevcut imar koşullarında maksimum inşaat potansiyeli ve değer artış senaryoları.</p></div></div>
+          <div class="lof"><div class="loic"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><h4>Yatırım Projeksiyonu</h4><p>Kısa, orta ve uzun vadeli getiri analizleri. Satış, kiralama ve geliştirme karşılaştırması.</p></div></div>
+        </div>
+      </div>
+      <div class="fcard">
+        <div class="fbadge">Ücretsiz</div>
+        <h3 class="fh">Arsa Fizibilite Formu</h3>
+        <p class="fs">48 saat içinde uzman ekibimiz sizi arar.</p>
+        <div class="ff"><label class="fl">Ad Soyad</label><input type="text" class="fi" id="pn" placeholder="Adınızı girin"></div>
+        <div class="ff"><label class="fl">Telefon</label><input type="tel" class="fi" id="pt" placeholder="+90 (___) ___ ____"></div>
+        <div class="ff"><label class="fl">Arsa Konumu</label><input type="text" class="fi" placeholder="İlçe, Mahalle veya Ada/Parsel"></div>
+        <div class="ff"><label class="fl">Arsa Büyüklüğü</label><select class="fsel"><option>500 m² altı</option><option>500–2.000 m²</option><option>2.000–10.000 m²</option><option>10.000 m² üzeri</option></select></div>
+        <div class="ff"><label class="fl">Hedef</label><select class="fsel"><option>Geliştirme ve satış</option><option>Müteahhitle ortak proje</option><option>Kentsel dönüşüm</option><option>Yatırım değerlendirmesi</option></select></div>
+        <button class="fsub" onclick="subPage()">Ücretsiz Analiz Talep Et →</button>
+        <p class="fnote">🔒 Bilgileriniz gizli tutulur.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIGITAL TWIN -->
+<section class="sec dsec" id="twin">
+  <div class="wr">
+    <div class="twg">
+      <div>
+        <div class="dlbl">Dijital İkiz Teknolojisi</div>
+        <h2 class="dh">Projenizi inşa etmeden<br><em>önce yaşayın</em></h2>
+        <p class="dp" style="margin-bottom:20px">Yapınızın tüm yaşam döngüsünü — tasarımdan işletmeye kadar — gerçek zamanlı dijital ikizle simüle edin.</p>
+        <div class="twfl">
+          <div class="twf"><div class="twfi"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div><div class="twft">BIM Entegrasyonu</div><div class="twfs">IFC, Revit, ArchiCAD tam uyumluluk</div></div></div>
+          <div class="twf"><div class="twfi"><svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><div class="twft">Enerji Simülasyonu</div><div class="twfs">%40'a kadar enerji tasarrufu optimizasyonu</div></div></div>
+          <div class="twf"><div class="twfi"><svg viewBox="0 0 24 24"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div><div><div class="twft">IoT Sensör Entegrasyonu</div><div class="twfs">Gerçek zamanlı veri akışı ve anomali tespiti</div></div></div>
+        </div>
+        <div class="tpls"><span class="tpl">BIM / IFC</span><span class="tpl">Revit</span><span class="tpl">ArchiCAD</span><span class="tpl">LEED / BREEAM</span><span class="tpl">IoT Sensör</span></div>
+        <button class="dact" style="max-width:220px;margin-top:22px" onclick="omod('fmod','Dijital İkiz Demo Talebi','Projeniz için dijital ikiz demosu hazırlayalım.')">Demo Talep Et →</button>
+      </div>
+      <div class="twp">
+        <div class="twhdr"><div class="twdt" style="background:#ff5f57"></div><div class="twdt" style="background:#febc2e"></div><div class="twdt" style="background:#28c840"></div><span class="twht">EYA Digital Twin v2.4</span></div>
+        <div class="twsa">
+          <svg viewBox="0 0 250 192" width="230" height="177" fill="none">
+            <polygon points="125,14 228,67 228,156 125,187 22,156 22,67" fill="rgba(184,150,90,.05)" stroke="rgba(184,150,90,.38)" stroke-width=".8"/>
+            <polygon points="125,14 228,67 125,94 22,67" fill="rgba(184,150,90,.09)" stroke="rgba(184,150,90,.48)" stroke-width=".8"/>
+            <rect x="66" y="84" width="17" height="13" fill="rgba(184,150,90,.2)" stroke="rgba(184,150,90,.38)" stroke-width=".5" rx="1"/>
+            <rect x="90" y="84" width="17" height="13" fill="rgba(184,150,90,.09)" stroke="rgba(184,150,90,.28)" stroke-width=".5" rx="1"/>
+            <rect x="114" y="84" width="17" height="13" fill="rgba(184,150,90,.18)" stroke="rgba(184,150,90,.36)" stroke-width=".5" rx="1"/>
+            <rect x="138" y="84" width="17" height="13" fill="rgba(184,150,90,.06)" stroke="rgba(184,150,90,.22)" stroke-width=".5" rx="1"/>
+            <rect x="66" y="104" width="17" height="13" fill="rgba(184,150,90,.07)" stroke="rgba(184,150,90,.22)" stroke-width=".5" rx="1"/>
+            <rect x="90" y="104" width="17" height="13" fill="rgba(184,150,90,.24)" stroke="rgba(184,150,90,.42)" stroke-width=".5" rx="1"/>
+            <rect x="114" y="104" width="17" height="13" fill="rgba(184,150,90,.06)" stroke="rgba(184,150,90,.2)" stroke-width=".5" rx="1"/>
+            <rect x="138" y="104" width="17" height="13" fill="rgba(184,150,90,.14)" stroke="rgba(184,150,90,.32)" stroke-width=".5" rx="1"/>
+            <rect x="66" y="124" width="17" height="13" fill="rgba(184,150,90,.16)" stroke="rgba(184,150,90,.34)" stroke-width=".5" rx="1"/>
+            <rect x="90" y="124" width="17" height="13" fill="rgba(184,150,90,.09)" stroke="rgba(184,150,90,.26)" stroke-width=".5" rx="1"/>
+            <rect x="114" y="124" width="17" height="13" fill="rgba(184,150,90,.26)" stroke="rgba(184,150,90,.44)" stroke-width=".5" rx="1"/>
+            <rect x="138" y="124" width="17" height="13" fill="rgba(184,150,90,.05)" stroke="rgba(184,150,90,.18)" stroke-width=".5" rx="1"/>
+            <line x1="22" y1="110" x2="228" y2="110" stroke="rgba(184,150,90,.7)" stroke-width=".5">
+              <animate attributeName="y1" values="67;156;67" dur="3.5s" repeatCount="indefinite"/>
+              <animate attributeName="y2" values="67;156;67" dur="3.5s" repeatCount="indefinite"/>
+            </line>
+            <circle cx="22" cy="67" r="2.2" fill="rgba(184,150,90,.8)"/>
+            <circle cx="228" cy="67" r="2.2" fill="rgba(184,150,90,.8)"/>
+            <circle cx="125" cy="14" r="2.2" fill="rgba(184,150,90,.8)"/>
+          </svg>
+        </div>
+        <div class="twrws">
+          <div class="twr"><span class="twrl">Toplam İnşaat Alanı</span><span class="twrv">24,800 m² <span>GFA</span></span></div>
+          <div class="twr"><span class="twrl">Enerji Verimliliği</span><span class="twrv">A+ <span>BREEAM</span></span></div>
+          <div class="twr"><span class="twrl">Tahmini Tamamlanma</span><span class="twrv">Q3 2026 <span>±15 gün</span></span></div>
+          <div class="twr"><span class="twrl">Model Doğruluğu</span><span class="twrv">97.3% <span>Gerçek Zamanlı</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI -->
+<section class="sec" id="ai" style="background:var(--bgw)">
+  <div class="wr">
+    <div style="text-align:center">
+      <div class="seye">Yapay Zeka Destekli Proje Yönetimi</div><div class="srul c"></div>
+      <h2 class="sh2">Geleceğin mühendisliğini<br><em>bugün</em> deneyimleyin</h2>
+      <p class="sp2" style="margin:12px auto 0;text-align:center">Generatif yapay zeka ile konsept geliştirme, parametrik tasarım ve otomatik optimizasyon.</p>
+    </div>
+    <div class="aics">
+      <div class="aic fu">
+        <div class="aict"><div class="aipl">Aktif</div><span class="ain">01</span></div>
+        <h3>Generatif Konsept</h3>
+        <p>Yapay zeka, arsa koşullarınızı analiz ederek dakikalar içinde 10+ konsept alternatifi üretir.</p>
+        <div class="aif"><div><div class="ais">10+</div><div class="aisl">Konsept / Dk</div></div><button class="aib" onclick="omod('fmod','Generatif Konsept Talebi','Projeniz için yapay zeka destekli konsept üretelim.')">Dene →</button></div>
+      </div>
+      <div class="aic fu">
+        <div class="aict"><div class="aipl">Aktif</div><span class="ain">02</span></div>
+        <h3>Parametrik Optimizasyon</h3>
+        <p>Işık, havalandırma, enerji ve alan verimliliğini otomatik optimize eden tasarım motoru.</p>
+        <div class="aif"><div><div class="ais">%40</div><div class="aisl">Enerji Tasarrufu</div></div><button class="aib" onclick="omod('fmod','Parametrik Optimizasyon Talebi','Projeniz için enerji ve alan optimizasyonu yapalım.')">Dene →</button></div>
+      </div>
+      <div class="aic fu">
+        <div class="aict"><div class="aipl">Aktif</div><span class="ain">03</span></div>
+        <h3>Yatırım Simülatörü</h3>
+        <p>100+ değişkeni hesaba katan yapay zeka modeli ile proje karlılığınızı gerçek zamanlı simüle edin.</p>
+        <div class="aif"><div><div class="ais">100+</div><div class="aisl">Değişken</div></div><button class="aib" onclick="goto('calc')">Hesapla →</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec" id="calc" style="background:var(--bgc)">
+  <div class="wr">
+    <div class="seye">İnteraktif Araçlar</div><div class="srul"></div>
+    <h2 class="sh2">Projenizi <em>hesaplayın</em></h2>
+    <div class="cw">
+      <div>
+        <div class="ctbs">
+          <button class="ctb act" onclick="stab(this)">Arsa Fizibilite</button>
+          <button class="ctb" onclick="stab(this)">İnşaat Maliyeti</button>
+          <button class="ctb" onclick="stab(this)">Villa Hesabı</button>
+          <button class="ctb" onclick="stab(this)">Karlılık</button>
+        </div>
+        <div class="slg"><div class="slt"><span class="sll">Arsa Büyüklüğü</span><span class="slv" id="v1">2,500 m²</span></div><input type="range" class="slr" min="200" max="20000" value="2500" step="100" oninput="upd('a',this.value)"></div>
+        <div class="slg"><div class="slt"><span class="sll">TAKS (Taban Alan Katsayısı)</span><span class="slv" id="v2">0.40</span></div><input type="range" class="slr" min="0.1" max="0.8" value="0.4" step="0.05" oninput="upd('t',this.value)"></div>
+        <div class="slg"><div class="slt"><span class="sll">Kat Sayısı</span><span class="slv" id="v3">8 Kat</span></div><input type="range" class="slr" min="1" max="30" value="8" step="1" oninput="upd('k',this.value)"></div>
+        <div class="slg"><div class="slt"><span class="sll">m² Birim Satış Fiyatı</span><span class="slv" id="v4">₺45,000</span></div><input type="range" class="slr" min="15000" max="200000" value="45000" step="5000" oninput="upd('f',this.value)"></div>
+        <div class="slg"><div class="slt"><span class="sll">m² İnşaat Maliyeti</span><span class="slv" id="v5">₺18,000</span></div><input type="range" class="slr" min="8000" max="60000" value="18000" step="1000" oninput="upd('m',this.value)"></div>
+      </div>
+      <div class="rbox">
+        <div class="rtit">Anlık Hesaplama</div>
+        <div class="rrow"><div class="rlbl">Toplam İnşaat Alanı</div><div class="rval" id="r1">8,000 m²</div><div class="rsub">Net satılabilir alan tahmini</div></div>
+        <div class="rrow"><div class="rlbl">Tahmini Satış Geliri</div><div class="rval" id="r2">₺360M</div><div class="rsub">Brüt gelir projeksiyonu</div></div>
+        <div class="rrow"><div class="rlbl">Tahmini Maliyet</div><div class="rval" id="r3">₺144M</div><div class="rsub">%25 genel gider dahil</div></div>
+        <div class="rrow"><div class="rlbl">Net Karlılık</div><div class="rval g" id="r4">₺216M</div><div class="rsub" id="r5">%60.0 brüt marj</div></div>
+        <button class="ract" onclick="omod('fmod','Detaylı Fizibilite Raporu','Hesaplama sonuçlarınız için detaylı rapor hazırlayalım.')">Detaylı Rapor Al →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="sec" id="pg" style="background:var(--bgw)">
+  <div class="wr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px">
+      <div><div class="seye">Başarı Hikayeleri</div><div class="srul"></div>
+        <h2 class="sh2">Değer yarattığımız<br><em>projeler</em></h2>
+        <p class="sp2">Kamu ve özel sektörde tamamlanan konut, hastane, eğitim, altyapı ve endüstriyel projelerden seçkiler.</p>
+      </div>
+      <button onclick="omod('fmod','Referans Proje Bilgisi','Projelerimiz hakkında detaylı bilgi alın.')" style="padding:8px 18px;border:1px solid var(--brd);border-radius:4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--inm);font-family:'Jost',sans-serif;background:transparent;cursor:pointer;white-space:nowrap;transition:all .2s">Tüm Projeler →</button>
+    </div>
+
+    <!-- FİLTRE -->
+    <div class="pgfilter" id="pgfilter">
+      <button class="pgfbtn active" data-filter="all">Tümü</button>
+      <button class="pgfbtn" data-filter="kamu">Kamu</button>
+      <button class="pgfbtn" data-filter="ozel">Özel</button>
+      <span class="pgfsep"></span>
+      <button class="pgfbtn" data-filter="konut">Konut</button>
+      <button class="pgfbtn" data-filter="hastane">Hastane</button>
+      <button class="pgfbtn" data-filter="egitim">Eğitim</button>
+      <button class="pgfbtn" data-filter="altyapi">Altyapı</button>
+      <button class="pgfbtn" data-filter="karma">Karma Kullanım</button>
+      <button class="pgfbtn" data-filter="endustriyel">Endüstriyel</button>
+    </div>
+
+    <!-- PROJE GRID -->
+    <div class="pg-grid" id="pgGrid">
+
+      <!-- KAMU PROJELERİ -->
+      <div class="pgcd pgitem" data-cat="kamu altyapi" onclick="omod('fmod','Sirkeci–Kazlıçeşme Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#f0ede7 0%,#e8e4dc 100%)">
+          <svg width="100%" height="100%" viewBox="0 0 700 420" style="opacity:.14" preserveAspectRatio="xMidYMid slice">
+            <line x1="0" y1="210" x2="700" y2="210" stroke="#B8965A" stroke-width=".5"/><line x1="350" y1="0" x2="350" y2="420" stroke="#B8965A" stroke-width=".5"/><ellipse cx="350" cy="210" rx="160" ry="160" fill="none" stroke="#B8965A" stroke-width=".6"/><rect x="100" y="80" width="500" height="260" fill="none" stroke="#B8965A" stroke-width=".7"/>
+          </svg>
+        </div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Altyapı · İstanbul</div>
+          <h3>Sirkeci–Kazlıçeşme Rekreasyon ve Raylı Sistem Projesi</h3>
+          <p>Tarihi yarımada kıyı hattı boyunca yayılan kentsel dönüşüm ve raylı sistem entegrasyonu.</p>
+          <div class="pgsts"><div class="pgst">18 km<span>Kıyı Hattı</span></div><div class="pgst">4<span>İstasyon</span></div><div class="pgst">₺6.4B<span>Yatırım</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Tasarım</span><span class="pg-tech">Raylı Sistem</span><span class="pg-tech">BIM</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu hastane" onclick="omod('fmod','Devlet Hastanesi Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#e8f0ee 0%,#d8e8e4 100%)"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Hastane · Ankara</div>
+          <h3>Ankara Etlik Entegre Sağlık Kampüsü — Teknik Müşavirlik</h3>
+          <p>Mekanik, elektrik ve zayıf akım sistemleri teknik şartname ve müşavirlik hizmetleri.</p>
+          <div class="pgsts"><div class="pgst">3.600<span>Yatak</span></div><div class="pgst">1.2M m²<span>Alan</span></div><div class="pgst">12<span>Blok</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Elektrik</span><span class="pg-tech">Zayıf Akım</span><span class="pg-tech">Müşavirlik</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu egitim" onclick="omod('fmod','Üniversite Kampüsü Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#eeeaf0 0%,#e4dce8 100%)"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Eğitim · İstanbul</div>
+          <h3>İstanbul Teknik Üniversitesi Maslak Kampüs Yenileme</h3>
+          <p>Betonarme güçlendirme, elektrik altyapısı yenileme ve BIM tabanlı proje yönetimi.</p>
+          <div class="pgsts"><div class="pgst">8<span>Yapı</span></div><div class="pgst">45.000 m²<span>Alan</span></div><div class="pgst">TBDY 2018<span>Deprem</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Statik</span><span class="pg-tech">Güçlendirme</span><span class="pg-tech">BIM</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu egitim" onclick="omod('fmod','Okul Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#f0eee8 0%,#e8e4d8 100%)"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Eğitim · Bursa</div>
+          <h3>Osmangazi İlköğretim Okulu Kompleksi</h3>
+          <p>Yeni yapım betonarme proje, teknik şartname ve yapı denetim müşavirliği.</p>
+          <div class="pgsts"><div class="pgst">32<span>Derslik</span></div><div class="pgst">8.400 m²<span>Alan</span></div><div class="pgst">A+<span>Enerji</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Betonarme</span><span class="pg-tech">Teknik Şartname</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu altyapi" onclick="omod('fmod','Köprü Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,#eaeef2 0%,#d8dde8 100%)"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Altyapı · Sakarya</div>
+          <h3>Adapazarı Çevre Yolu Köprüsü — Statik Proje</h3>
+          <p>Çelik kafes kiriş köprü statik hesabı, birleşim detayları ve fabrikasyon dökümanları.</p>
+          <div class="pgsts"><div class="pgst">240 m<span>Açıklık</span></div><div class="pgst">4<span>Şerit</span></div><div class="pgst">Eurocode 3<span>Standart</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Çelik Yapı</span><span class="pg-tech">Köprü</span><span class="pg-tech">Statik</span></div>
+        </div>
+      </div>
+
+      <!-- ÖZEL PROJELERİ -->
+      <div class="pgcd pgitem" data-cat="ozel karma" onclick="omod('fmod','Bağcılar Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#edeae4 0%,#e4e0d8 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Karma Kullanım · Bağcılar</div>
+          <h3>Bağcılar Kentsel Dönüşüm Kompleksi</h3>
+          <p>340 konut + 12 ticari birim. YZ destekli optimizasyon ile %34 karlılık.</p>
+          <div class="pgsts"><div class="pgst">340<span>Konut</span></div><div class="pgst">₺2.8B<span>Değer</span></div><div class="pgst">%34<span>Karlılık</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">YZ Optimizasyon</span><span class="pg-tech">Dijital İkiz</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Başak Evler Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#ede8e0 0%,#e4ddd4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Konut · İstanbul</div>
+          <h3>Başak Evler Sitesi</h3>
+          <p>220 daire, sosyal donatı ve peyzaj entegrasyonu.</p>
+          <div class="pgsts"><div class="pgst">220<span>Daire</span></div><div class="pgst">28.000 m²<span>Alan</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Konut</span><span class="pg-tech">Peyzaj</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Kartal Tekel Blokları Hakkında','')">
+        <div style="background:linear-gradient(135deg,#edebe4 0%,#e4e0d8 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Konut · Kartal</div>
+          <h3>Kartal Tekel Blokları</h3>
+          <p>Kentsel dönüşüm kapsamında 98 daire, 10.500 m² inşaat.</p>
+          <div class="pgsts"><div class="pgst">98<span>Daire</span></div><div class="pgst">10.500 m²<span>Alan</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Dönüşüm</span><span class="pg-tech">Betonarme</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Yalıkavak Villa Serisi Hakkında','')">
+        <div style="background:linear-gradient(135deg,#e8ecf0 0%,#dddad8 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Villa · Bodrum</div>
+          <h3>Yalıkavak Lüks Villa Serisi</h3>
+          <p>Dijital ikiz teknolojisiyle tasarlanan 12 adet lüks villa projesi.</p>
+          <div class="pgsts"><div class="pgst">12<span>Villa</span></div><div class="pgst">650 m²<span>Ortalama</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Dijital İkiz</span><span class="pg-tech">Lüks</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Fatih Huzur Apartmanı Hakkında','')">
+        <div style="background:linear-gradient(135deg,#edeae4 0%,#ddd8d0 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Kentsel Dönüşüm · Fatih</div>
+          <h3>Fatih Huzur Apartmanı</h3>
+          <p>Kentsel dönüşüm kapsamında mevcut yapı yıkım-yeniden yapım projesi.</p>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Dönüşüm</span><span class="pg-tech">Betonarme</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Maltepe Kentsel Dönüşüm Hakkında','')">
+        <div style="background:linear-gradient(135deg,#e8eae4 0%,#d8dcd4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Kentsel Dönüşüm · Maltepe</div>
+          <h3>Maltepe Kentsel Dönüşüm Projesi</h3>
+          <p>Çok bloklu konut alanı yenileme ve statik proje hizmetleri.</p>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Dönüşüm</span><span class="pg-tech">Statik</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Pendik Kentsel Dönüşüm Hakkında','')">
+        <div style="background:linear-gradient(135deg,#eae8e4 0%,#dad6cc 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Kentsel Dönüşüm · Pendik</div>
+          <h3>Pendik Kentsel Dönüşüm Projesi</h3>
+          <p>Toplam 27.000 m² inşaat alanında çok katlı konut yenileme projesi.</p>
+          <div class="pgsts"><div class="pgst">27.000 m²<span>Alan</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Dönüşüm</span><span class="pg-tech">Betonarme</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Güngören Kentsel Dönüşüm Hakkında','')">
+        <div style="background:linear-gradient(135deg,#ece8e0 0%,#dcd8d0 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Kentsel Dönüşüm · Güngören</div>
+          <h3>Güngören Kentsel Dönüşüm Projesi</h3>
+          <p>30.000 m² inşaat alanında toplu konut yenileme ve mühendislik hizmetleri.</p>
+          <div class="pgsts"><div class="pgst">30.000 m²<span>Alan</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Dönüşüm</span><span class="pg-tech">BIM</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Villa Kent Kocaeli Ada Garden Hakkında','')">
+        <div style="background:linear-gradient(135deg,#e8ece8 0%,#d8dcd4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Villa · Kocaeli</div>
+          <h3>Villa Kent Kocaeli — Ada Garden Projesi</h3>
+          <p>Kocaeli'nde villa tipi konut projesi; peyzaj entegrasyonu ve akıllı bina sistemleri.</p>
+          <div class="pg-tags"><span class="pg-tech">Villa</span><span class="pg-tech">Otomasyon</span><span class="pg-tech">Peyzaj</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu konut" onclick="omod('fmod','Kartal Orhantepe Maliyeciler Lojmanları Hakkında','')">
+        <div style="background:linear-gradient(135deg,#e8eaf0 0%,#d8dce8 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Lojman · Kartal</div>
+          <h3>Kartal Orhantepe Maliyeciler Lojmanları</h3>
+          <p>Kamu lojman yenileme projesi; statik, elektrik ve teknik şartname hizmetleri.</p>
+          <div class="pg-tags"><span class="pg-tech">Lojman</span><span class="pg-tech">Statik</span><span class="pg-tech">Elektrik</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Kartal Orhantepe Fidan Sitesi Hakkında','')">
+        <div style="background:linear-gradient(135deg,#eaeee8 0%,#dadcd4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Kentsel Dönüşüm · Kartal</div>
+          <h3>Kartal Kentsel Dönüşüm — Fidan Sitesi</h3>
+          <p>Fidan Sitesi kentsel dönüşüm kapsamında mevcut yapı yenileme ve konut projesi.</p>
+          <div class="pg-tags"><span class="pg-tech">Kentsel Dönüşüm</span><span class="pg-tech">Betonarme</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel konut" onclick="omod('fmod','Devam Eden Konut Projeleri Hakkında','')">
+        <div style="background:linear-gradient(135deg,#eceae4 0%,#dedad4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Devam Eden · İstanbul</div>
+          <h3>Devam Eden Konut Projeleri</h3>
+          <p>Üsküdar, Güngören, Bakırköy ve Bahçelievler'de süregelen kentsel dönüşüm ve yeni yapım konut projeleri.</p>
+          <div class="pg-tags"><span class="pg-tech">Üsküdar</span><span class="pg-tech">Güngören</span><span class="pg-tech">Bakırköy</span><span class="pg-tech">Bahçelievler</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel endustriyel" onclick="omod('fmod','Endüstriyel Tesis Projesi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#eaeae8 0%,#dcdad4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Endüstriyel · Libya</div>
+          <h3>ENKA Mühendislik — Libya Saha Tesisleri</h3>
+          <p>3 enerji santrali, 6 şehir tesisi, çimento ve arıtma dahil 24 sanayi tesisi. Veri merkezi altyapısı, sistem tasarımı ve kurulumu.</p>
+          <div class="pgsts"><div class="pgst">24<span>Tesis</span></div><div class="pgst">3<span>Enerji Santrali</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Endüstriyel</span><span class="pg-tech">Veri Merkezi</span><span class="pg-tech">CAPEX/OPEX</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel endustriyel" onclick="omod('fmod','İGA Havalimanı Güvenlik Sistemi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#e8eaf0 0%,#d8dce8 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Güvenlik & IT · İstanbul</div>
+          <h3>İstanbul Havalimanı Güvenlik & Veri Merkezi Sistemi</h3>
+          <p>Video gözetim, yüz tanıma, HCI/SAN altyapısı, vCluster güvenlik sistemi ve DB Firewall tasarımı.</p>
+          <div class="pg-tags"><span class="pg-tech">IP Kamera</span><span class="pg-tech">SAN</span><span class="pg-tech">Güvenlik</span><span class="pg-tech">DB Firewall</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu endustriyel" onclick="omod('fmod','ABB KKTC E-Devlet Veri Merkezi Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#eaeef2 0%,#d8dde8 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Veri Merkezi · KKTC / Türkiye</div>
+          <h3>ABB Elektrik — KKTC E-Devlet Tier 4 Veri Merkezi</h3>
+          <p>TC Ulaştırma Bakanlığı ve KKTC bakanlıkları için Tier 4 veri merkezi fizibilite, tasarım ve ihale şartnamesi. TÜRKSAT topoloji yönetimi.</p>
+          <div class="pgsts"><div class="pgst">50M$<span>Bütçe</span></div><div class="pgst">Tier 4<span>Standart</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Tier 4 DC</span><span class="pg-tech">RFP/RFQ</span><span class="pg-tech">E-Devlet</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel endustriyel" onclick="omod('fmod','Finans Sektörü Veri Merkezi Projeleri Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#eef0e8 0%,#dce0d4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Finans & Telco · İstanbul / Ankara</div>
+          <h3>Finans & Telco Veri Merkezi Projeleri</h3>
+          <p>Denizbank BT Altyapısı (3,5M$), Yapı Kredi & Denizbank T3 Depolama, Turkcell Gebze DC, Borsa İstanbul NASDAQ, Ingenico Ödeme Sistemi, Hepsiburada İş Sürekliliği.</p>
+          <div class="pgsts"><div class="pgst">T3<span>Standart</span></div><div class="pgst">3.5M$<span>Proje</span></div></div>
+          <div class="pg-tags"><span class="pg-tech">Depolama</span><span class="pg-tech">SAN</span><span class="pg-tech">İş Sürekliliği</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu endustriyel" onclick="omod('fmod','Kamu Kurumu Veri Merkezi Projeleri Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#e8eef0 0%,#d4dce0 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Kamu IT · Türkiye</div>
+          <h3>Kamu Kurumu Veri Merkezi & Dijital Dönüşüm</h3>
+          <p>TC Cumhurbaşkanlığı, Ankara SGK, Çevre Bakanlığı, Darphane, DHMİ, Yavuz Sultan Selim Köprüsü DC Network, Kadıköy & Ataşehir & Pendik & Bağcılar Belediyeleri.</p>
+          <div class="pg-tags"><span class="pg-tech">Sanallaştırma</span><span class="pg-tech">Network</span><span class="pg-tech">DR</span><span class="pg-tech">HCI</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="ozel endustriyel" onclick="omod('fmod','Holding ve Kurumsal Veri Merkezi Projeleri Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#f0ece8 0%,#e0d8d0 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag ozel-tag">Özel</span>
+        <div class="pgcn">
+          <div class="pgtg">Kurumsal IT · Türkiye</div>
+          <h3>Kurumsal Holding & Lojistik Veri Merkezi Göçleri</h3>
+          <p>Kale Holding, Petlas, Polat Holding, Tekfen İnşaat, Borusan Lojistik, Anadolu Grubu, Enka İnşaat, Sabancı DX — veri merkezi taşıma, bulut geçiş ve konsolidasyon projeleri.</p>
+          <div class="pg-tags"><span class="pg-tech">Cloud Migration</span><span class="pg-tech">VMware</span><span class="pg-tech">DR</span></div>
+        </div>
+      </div>
+
+      <div class="pgcd pgitem" data-cat="kamu egitim hastane endustriyel" onclick="omod('fmod','Üniversite ve Hastane IT Projeleri Hakkında','Bu proje hakkında detaylı bilgi almak istiyorum.')">
+        <div style="background:linear-gradient(135deg,#eeeaf0 0%,#dcd4e4 100%);position:absolute;inset:0"></div>
+        <div class="pgfd"></div>
+        <span class="pg-sektag kamu-tag">Kamu</span>
+        <div class="pgcn">
+          <div class="pgtg">Eğitim & Sağlık IT · Türkiye</div>
+          <h3>Üniversite & Hastane IT Altyapısı</h3>
+          <p>Acıbadem Üniversitesi Kerem Aydınlar Kampüsü DC mimarisi, Namık Kemal Üniversitesi Hastanesi VDI, Düzce Üniversitesi, Gaziantep Üniversitesi, Antalya Expo 2016 aktif-aktif DC.</p>
+          <div class="pg-tags"><span class="pg-tech">VDI</span><span class="pg-tech">Veri Merkezi</span><span class="pg-tech">MSSC 2012</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.pgfbtn');
+  var items = document.querySelectorAll('.pgitem');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      items.forEach(function(item){
+        var cats = item.getAttribute('data-cat') || '';
+        if(f === 'all' || cats.indexOf(f) !== -1){
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+})();
+</script>
+
+<!-- BLOG -->
+<section class="sec" id="bl" style="background:var(--bgc)">
+  <div class="wr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px">
+      <div><div class="seye">İçerik Merkezi</div><div class="srul"></div><h2 class="sh2">Sektörün nabzını<br><em>tutun</em></h2></div>
+      <button onclick="omod('fmod','Blog İçerik Talebi','')" style="padding:8px 18px;border:1px solid var(--brl);border-radius:4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--inm);font-family:'Jost',sans-serif;background:transparent;cursor:pointer;white-space:nowrap">Tüm Yazılar →</button>
+    </div>
+    <div class="blgr">
+      <div class="blgc fu" onclick="omod('fmod','Yapay Zeka ve Mühendislik','')">
+        <div class="blgi"><div class="blgif" style="background:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80') center/cover no-repeat"></div></div>
+        <div class="blgct">Yapay Zeka</div>
+        <div class="blgtt">Yapay Zeka Mühendislik ve Proje Süreçlerinde Nasıl Devrim Yaratıyor?</div>
+        <div class="blgex">BIM entegrasyonu, otomatik statik analiz ve YZ destekli maliyet tahmini artık inşaat sektörünün gündeminde. Projenizi rakiplerden nasıl öne taşırsınız?</div>
+        <div class="blgmt">12 Mayıs 2025 · 8 dk okuma</div>
+      </div>
+      <div class="blgc fu" onclick="omod('fmod','İstanbul Arsa Yatırımı','')">
+        <div class="blgi"><div class="blgif" style="background:url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=600&q=80') center/cover no-repeat"></div></div>
+        <div class="blgct">Yatırım</div>
+        <div class="blgtt">2025'te İstanbul'da Arsa Yatırımı: Hangi İlçeler?</div>
+        <div class="blgex">Kadıköy, Maltepe, Kartal ve Pendik'te fiyat endeksleri, imar değişiklikleri ve getiri potansiyeli karşılaştırmalı analiz.</div>
+        <div class="blgmt">8 Mayıs 2025 · 12 dk okuma</div>
+      </div>
+      <div class="blgc fu" onclick="omod('fmod','Kentsel Dönüşüm Hakları','')">
+        <div class="blgi"><div class="blgif" style="background:url('https://images.unsplash.com/photo-1503594384566-461fe158e797?w=600&q=80') center/cover no-repeat"></div></div>
+        <div class="blgct">Kentsel Dönüşüm</div>
+        <div class="blgtt">Kentsel Dönüşümde Mülk Sahiplerinin Hakları</div>
+        <div class="blgex">6306 sayılı Kanun kapsamında tahliye süreçleri, kira yardımı, hisse anlaşmazlıkları ve müteahhit seçiminde dikkat edilmesi gerekenler.</div>
+        <div class="blgmt">2 Mayıs 2025 · 10 dk okuma</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="fin">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 25% 60%,rgba(184,150,90,.08) 0%,transparent 55%);pointer-events:none"></div>
+  <div class="finn">
+    <div class="fkck">Bir Sonraki Adım</div>
+    <h2 class="finh">Projenizin yatırım<br>potansiyelini birlikte<br><em>keşfedelim</em></h2>
+    <p class="finp">Ücretsiz ön görüşme ile uzman ekibimiz projenizi değerlendirir, size özel fizibilite yol haritası sunar.</p>
+    <div class="fbtns">
+      <button class="hbg" onclick="omod('fmod','Ücretsiz Analiz Başlat','')">Ücretsiz Analiz Başlat</button>
+      <button class="hbo" style="border-color:var(--brd);color:var(--inm);background:transparent" >İletişime Geç →</button>
+      <a href="https://calendar.app.google/p4TJvzBD4hweFwkDA" target="_blank" class="hbo" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;border-color:var(--gld);color:var(--gld);background:transparent">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Online Toplantı Planla →
+      </a>
+    </div>
+    <div class="ftrs"><span class="ftr">Ücretsiz İlk Analiz</span><span class="ftr">48 Saat Dönüş</span><span class="ftr">Gizlilik Garantisi</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftop">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px">
+
+        <div><div class="fbn">EYA Proje</div><div class="fbs">Mühendislik · Mimarlık · Müşavirlik</div></div>
+      </div>
+      <p class="fab">Mühendislik, mimarlık ve müşavirlik alanlarında uzman kadrosuyla hizmet veren çok disiplinli proje ekibi. Türkiye merkezli, global ölçekli.</p>
+      <div class="fsoc">
+        <a href="https://linkedin.com/company/eya-proje" target="_blank" class="fsocbtn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://x.com/eyaproje" target="_blank" class="fsocbtn" title="X">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </a>
+        <a href="https://instagram.com/eyaproje" target="_blank" class="fsocbtn" title="Instagram">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="fch">Hizmetler</div>
+      <div class="flks">
+        <a onclick="goto('sv')">Mimari Proje Geliştirme</a>
+        <a onclick="goto('sv')">Arsa Fizibilite</a>
+        <a onclick="goto('twin')">Dijital İkiz</a>
+        <a onclick="goto('sv')">Kentsel Dönüşüm</a>
+        <a onclick="goto('ai')">Yatırım Analizi</a>
+        <a onclick="omod('fmod','Uzlaştırma ve Arabuluculuk','')">Uzlaştırma & Arabuluculuk</a>
+        <a onclick="omod('fmod','Hukuki Danışmanlık','')">Hukuki Danışmanlık</a>
+        <a onclick="omod('fmod','Teknik Şartname Hazırlığı','')">Teknik Şartname</a>
+        <a onclick="omod('fmod','Otomasyon ve Mekanik Sistemler','')">Otomasyon & Mekanik</a>
+        <a onclick="omod('fmod','Hukuki Regülasyon ve Uyum','')">Hukuki Regülasyon</a>
+        <a onclick="omod('fmod','Belediye Projeleri','')">Belediye İşleri</a>
+        <a onclick="omod('fmod','Elektrik, Zayıf Akım ve IT Altyapısı','')">Elektrik & Zayıf Akım & IT</a>
+        <a onclick="omod('fmod','Statik ve Taşıyıcı Sistem Mühendisliği','')">Statik & Taşıyıcı Sistem</a>
+        <a onclick="omod('fmod','Yatırım ve Finans Danışmanlığı','')">Yatırım & Finans Danışmanlığı</a>
+      </div>
+    </div>
+    <div>
+      <div class="fch">Çözümler</div>
+      <div class="flks">
+        <a onclick="goto('ctr')">Müteahhitler</a>
+        <a onclick="goto('lo')">Arsa Sahipleri</a>
+        <a onclick="goto('sv')">Yatırımcılar</a>
+        <a onclick="goto('sv')">Belediyeler</a>
+        <a onclick="goto('sv')">Kurumsal</a>
+      </div>
+    </div>
+    <div>
+      <div class="fch">Şirket</div>
+      <div class="flks">
+        <a >Hakkımızda</a>
+        <a onclick="goto('pg')">Projeler</a>
+        <a onclick="goto('bl')">Blog</a>
+        <a onclick="omod('fmod','Kariyer Başvurusu','Ekibimize katılmak için bilgilerinizi bırakın.')">Kariyer</a>
+        <a onclick="omod('cntmod')">İletişim</a>
+      </div>
+    </div>
+  </div>
+  <div class="fbot">
+    <span class="fcp">© 2026 EYA Proje Mühendislik & Mimarlık & Müşavirlik. Tüm hakları saklıdır.</span>
+    <div class="flg"><a href="#">Gizlilik</a><a href="#">KVKK</a><a href="#">Kullanım Şartları</a></div>
+  </div>
+</footer>
+
+<script>
+// NAV scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('sc',window.scrollY>40)
+});
+
+// Mobile menu
+function omob(){document.getElementById('mobm').classList.add('on');document.body.style.overflow='hidden'}
+function cmob(){document.getElementById('mobm').classList.remove('on');document.body.style.overflow=''}
+
+// Smooth scroll
+function goto(id){
+  cmob();
+  var el=document.getElementById(id);
+  if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+
+// Modal
+function omod(id,tit,dsc){
+  if(id==='fmod'){
+    var t=document.getElementById('mtit');
+    var d=document.getElementById('mdsc');
+    if(t&&tit)t.textContent=tit;
+    if(d&&dsc)d.textContent=dsc;
+    var fc=document.getElementById('fcon');
+    var fs=document.getElementById('fsucc');
+    if(fc)fc.classList.remove('hide');
+    if(fs)fs.classList.remove('on');
+  }
+  document.getElementById(id).classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function cmod(id){
+  document.getElementById(id).classList.remove('on');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('.ovl').forEach(el=>{
+  el.addEventListener('click',function(e){if(e.target===this)cmod(this.id)});
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')document.querySelectorAll('.ovl.on').forEach(el=>cmod(el.id));
+});
+
+// Form submit
+function subForm(){
+  var n=document.getElementById('fn');
+  var t=document.getElementById('ft');
+  if(!n||!n.value.trim()||!t||!t.value.trim()){alert('Lütfen ad soyad ve telefon alanlarını doldurun.');return;}
+  document.getElementById('fcon').classList.add('hide');
+  document.getElementById('fsucc').classList.add('on');
+}
+function subPage(){
+  var n=document.getElementById('pn');
+  var t=document.getElementById('pt');
+  if(!n||!n.value.trim()||!t||!t.value.trim()){alert('Lütfen ad soyad ve telefon alanlarını doldurun.');return;}
+  omod('fmod','Talebiniz Alındı!','');
+  setTimeout(()=>{
+    document.getElementById('fcon').classList.add('hide');
+    document.getElementById('fsucc').classList.add('on');
+  },50);
+}
+
+// Scroll fade
+var obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.07,rootMargin:'0px 0px -28px 0px'});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+// Dashboard bars
+setTimeout(()=>{
+  [['b1','78%'],['b2','20%'],['b3','97%']].forEach(b=>{
+    var el=document.getElementById(b[0]);
+    if(el)el.style.width=b[1];
+  });
+},500);
+
+// Calculator
+var st={a:2500,t:0.4,k:8,f:45000,m:18000};
+function fmt(n){return new Intl.NumberFormat('tr-TR').format(Math.round(n))}
+function fmtM(n){
+  if(n>=1e9)return '₺'+(Math.round(n/1e9*10)/10)+'B';
+  if(n>=1e6)return '₺'+(Math.round(n/1e6*10)/10)+'M';
+  return '₺'+fmt(n);
+}
+var sv2={a:'v1',t:'v2',k:'v3',f:'v4',m:'v5'};
+var lb={
+  a:v=>''+fmt(v)+' m²',t:v=>parseFloat(v).toFixed(2),
+  k:v=>v+' Kat',f:v=>'₺'+fmt(v),m:v=>'₺'+fmt(v)
+};
+function upd(k,v){
+  st[k]=parseFloat(v);
+  var el=document.getElementById(sv2[k]);
+  if(el)el.textContent=lb[k](v);
+  calc();
+}
+function calc(){
+  var alan=st.a*st.t*st.k;
+  var gelir=alan*st.f;
+  var mal=alan*st.m*1.25;
+  var kar=gelir-mal;
+  var marj=gelir>0?(kar/gelir*100).toFixed(1):0;
+  var g=id=>document.getElementById(id);
+  if(g('r1'))g('r1').textContent=fmt(alan)+' m²';
+  if(g('r2'))g('r2').textContent=fmtM(gelir);
+  if(g('r3'))g('r3').textContent=fmtM(mal);
+  if(g('r4'))g('r4').textContent=fmtM(kar);
+  if(g('r5'))g('r5').textContent='%'+marj+' brüt marj';
+}
+function stab(btn){
+  document.querySelectorAll('.ctb').forEach(t=>t.classList.remove('act'));
+  btn.classList.add('act');
+}
+
+// Hero slideshow
+var slides=document.querySelectorAll('.hslide');
+var dots=document.querySelectorAll('.sdot');
+var cur=0,timer;
+function goSlide(n){
+  slides[cur].classList.remove('on');dots[cur].classList.remove('on');
+  cur=n;
+  slides[cur].classList.add('on');dots[cur].classList.add('on');
+  clearInterval(timer);timer=setInterval(()=>goSlide((cur+1)%slides.length),5000);
+}
+timer=setInterval(()=>goSlide((cur+1)%slides.length),5000);
+</script>
+</body>
+</html>
